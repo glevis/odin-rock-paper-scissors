@@ -9,38 +9,48 @@ function getHumanChoice() {
     return choice;
 }
 
-
-
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0; 
-
-    function playRound(humanChoice, computerChoice) {
-        if(humanChoice == computerChoice) {
-            console.log("Tie! No one wins.");
-        }else if(humanChoice == "rock" && computerChoice == "paper") {
-            console.log("You lose! Paper beats rock!");
-            computerScore++;
-        }else if(humanChoice == "paper" && computerChoice == "scissors") {
-            console.log("You lose! Scissors beats paper!");
-            computerScore++;
-        }else if(humanChoice == "scissors" && computerChoice == "rock") {
-            console.log("You lose! Rock beats scissors!");
-            computerScore++;
-        }else{
-            humanScore++;
-            console.log("You win!")
-        }
+function playRound(humanChoice, computerChoice) {
+    const results = document.getElementById('results');
+    console.log("playing round");
+    if(humanChoice == computerChoice) {
+        results.textContent = "Tie! No one wins.";
+    }else if(humanChoice == "rock" && computerChoice == "paper") {
+        results.textContent = "You lose! Paper beats rock!";
+        computerScore++;
+    }else if(humanChoice == "paper" && computerChoice == "scissors") {
+        results.textContent = "You lose! Scissors beats paper!";
+        computerScore++;
+    }else if(humanChoice == "scissors" && computerChoice == "rock") {
+        results.textContent = "You lose! Rock beats scissors!";
+        computerScore++;
+    }else{
+        results.textContent = "You win!";
+        humanScore++;
     }
-
-    for(let i = 0; i < 5; i++) {
-        console.log("round " + i);
-        const humanChoice = getHumanChoice().toLowerCase();
-        const computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
+    results.textContent = results.textContent + " Score: " + humanScore + " " + "Computer Score: " + computerScore;
+    if(humanScore == 5) {
+        results.textContent = "You win the game!";
+        humanScore = 0;
+        computerScore = 0;
     }
-    console.log("Your score: " + humanScore + " Bot score: " + computerScore);
+    if(computerScore == 5) {
+        results.textContent = "Computer wins the game!";
+        humanScore = 0;
+        computerScore = 0;
+    }
 }
 
-playGame();
+let humanScore = 0;
+let computerScore = 0; 
+
+const buttons = document.querySelectorAll('button');
+console.log(buttons);
+
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const computerChoice = getComputerChoice();
+        playRound(button.id, computerChoice);
+    });
+});
+
 
